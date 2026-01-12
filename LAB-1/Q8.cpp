@@ -22,10 +22,10 @@ int main()
     cin >> i >> j;
     cout << (int)(arr + 1) << endl;
     // Row-major order formula
-    int row_major_address = (int)(arr + (i * n + j));
+    int row_major_address = (int)(&arr[0][0]) + (i * n + j) * sizeof(int);
 
     // Column-major order formula
-    int col_major_address = (int)(arr + (j * m + i));
+    int col_major_address = (int)(&arr[0][0]) + (j * m + i) * sizeof(int);
 
     cout << "Row-major address: According to formula:" << row_major_address << "  Actual Address: " << (int)&arr[i][j] << endl;
     cout << "Column-major address: According to formula:" << col_major_address << "  Actual Address: " << (int)&arr[j][i] << endl;
