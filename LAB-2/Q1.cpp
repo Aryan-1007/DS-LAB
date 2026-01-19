@@ -1,86 +1,202 @@
 #include <bits/stdc++.h>
 using namespace std;
-void insert(int *array, int postion, int element)
+
+/* Insert element */
+int *insert(int *arr, int &size, int pos, int ele)
 {
-    realloc(array, 11 * sizeof(int));
-    for (int i = postion; i < 11; i++)
-        array[i] = array[i - 1];
-    array[postion - 1] = element;
+    size++;
+    arr = (int *)realloc(arr, size * sizeof(int));
+
+    for (int i = size - 1; i >= pos; i--)
+        arr[i] = arr[i - 1];
+
+    arr[pos - 1] = ele;
+    return arr;
 }
-void Delete(int *array, int position)
+
+/* Delete element */
+int *Delete(int *arr, int &size, int pos)
 {
-    for (int i = position - 1; i < 10; i++)
-        array[i] = array[i + 1];
-    realloc(array, 9 * sizeof(int));
+    for (int i = pos - 1; i < size - 1; i++)
+        arr[i] = arr[i + 1];
+
+    size--;
+    arr = (int *)realloc(arr, size * sizeof(int));
+    return arr;
 }
-void Reverse(int *array)
+
+/* Reverse (in-place) */
+void Reverse(int *arr, int size)
 {
-    // int *arr;
-    // arr = (int *)malloc(10 * sizeof(int));
-    // for (int i = 0; i < 10; i++)
-    //     arr[i] = array[10 - i - 1];
-    // for (int i = 0; i < 10; i++)
-    //     array[i] = arr[i];
-    for (int i = 0; i < 5; i++)
-        swap(array[i], array[9 - i]);
+    for (int i = 0; i < size / 2; i++)
+        swap(arr[i], arr[size - i - 1]);
 }
-void copy(int *array1, int *array2, int start, int end)
+
+/* Reverse using temporary array */
+void ReverseTemp(int *arr, int size)
 {
-    int temp = end - start + 1;
-    realloc(array2, (10 + temp) * sizeof(int));
-    for (int i = 0; i < temp; i++)
-    {
-        array2[10 + i] = array1[start + i - 1];
-    }
+    int *temp = (int *)malloc(size * sizeof(int));
+    for (int i = 0; i < size; i++)
+        temp[i] = arr[size - i - 1];
+
+    for (int i = 0; i < size; i++)
+        arr[i] = temp[i];
+
+    free(temp);
 }
-void merge(int *array1, int *array2, int *array3)
+
+/* Sum without recursion */
+int sum(int *arr, int size)
 {
-    int pos = 0, i = 9, j = 9;
-    sort(array1,array1+10);
-    sort(array2,array2+10);
-    while (pos < 20)
-    {
-        if (array1[i] > array2[j])
-        {
-            array3[pos] = array1[i];
-            i--;
-            pos++;
-        }
-        else
-        {
-            array3[pos] = array2[j];
-            j--;
-            pos++;
-        }
-    }
+    int s = 0;
+    for (int i = 0; i < size; i++)
+        s += arr[i];
+    return s;
 }
-int sum(int *array)
+
+/* Sum using recursion */
+int sumRec(int *arr, int size)
 {
-    int temp{};
-    for (int i = 0; i < (sizeof(array) / sizeof(int)); i++)
-        temp += array[i];
-    return temp;
+    if (size == 0)
+        return 0;
+    return arr[size - 1] + sumRec(arr, size - 1);
 }
-int Search(int *array, int target)
+
+/* Linear search */
+int Search(int *arr, int size, int key)
 {
-    for (int i = 0; i < (sizeof(array) / sizeof(int)); i++)
-    {
-        if (array[i] == target)
+    for (int i = 0; i < size; i++)
+        if (arr[i] == key)
             return i + 1;
-        return -1;
-    }
-}
-void Separate(int *array, int *array1, int *array2)
-{
-
+    return -1;
 }
 
-int main(int argc, char const *argv[])
+/* Copy elements to MainArray */
+int copyToMain(int *sub, int *mainArr, int mainSize, int start, int end)
 {
-    int *SubArray1, *SubArray2, *MainArray;
-    SubArray1 = (int *)malloc(10 * sizeof(int));
-    SubArray2 = (int *)malloc(10 * sizeof(int));
-    MainArray = (int *)malloc(20 * sizeof(int));
-    
+    for (int i = start - 1; i < end; i++)
+        mainArr[mainSize++] = sub[i];
+    return mainSize;
+}
+
+/* Merge two arrays in descending order */
+void mergeDesc(int *a, int *b, int *c)
+{
+    sort(a, a + 10);
+    sort(b, b + 10);
+
+    int i = 9, j = 9, k = 0;
+    while (i >= 0 && j >= 0)
+        c[k++] = (a[i] > b[j]) ? a[i--] : b[j--];
+}
+
+/* Separate odd-even and positive-negative */
+void Separate(int *arr, int size)
+{
+    cout << "Even: ";
+    for (int i = 0; i < size; i++)
+        if (arr[i] % 2 == 0)
+            cout << arr[i] << " ";
+
+    cout << "\nOdd: ";
+    for (int i = 0; i < size; i++)
+        if (arr[i] % 2 != 0)
+            cout << arr[i] << " ";
+
+    cout << "\nPositive: ";
+    for (int i = 0; i < size; i++)
+        if (arr[i] >= 0)
+            cout << arr[i] << " ";
+
+    cout << "\nNegative: ";
+    for (int i = 0; i < size; i++)
+        if (arr[i] < 0)
+            cout << arr[i] << " ";
+    cout << endl;
+}
+
+/* Display */
+void display(int *arr, int size)
+{
+    for (int i = 0; i < size; i++)
+        cout << arr[i] << " ";
+    cout << endl;
+}
+
+int main()
+{
+    int size1 = 10, size2 = 10, mainSize = 0;
+
+    int *SubArray1 = (int *)malloc(size1 * sizeof(int));
+    int *SubArray2 = (int *)malloc(size2 * sizeof(int));
+    int *MainArray = (int *)malloc(20 * sizeof(int));
+
+    cout << "Enter 10 elements for SubArray1:\n";
+    for (int i = 0; i < 10; i++)
+        cin >> SubArray1[i];
+
+    cout << "Enter 10 elements for SubArray2:\n";
+    for (int i = 0; i < 10; i++)
+        cin >> SubArray2[i];
+
+    int choice;
+    do
+    {
+        cout << "\n1.Insert\n2.Delete\n3.Reverse(temp)\n4.Reverse(in-place)"
+             << "\n5.Copy to MainArray\n6.Merge Descending\n7.Sum\n8.Sum Rec"
+             << "\n9.Search\n10.Separate\n11.Display\n0.Exit\nChoice: ";
+        cin >> choice;
+
+        switch (choice)
+        {
+        case 1:
+            SubArray1 = insert(SubArray1, size1, 1, 100);
+            break;
+
+        case 2:
+            SubArray1 = Delete(SubArray1, size1, 1);
+            break;
+
+        case 3:
+            ReverseTemp(SubArray1, size1);
+            break;
+
+        case 4:
+            Reverse(SubArray1, size1);
+            break;
+
+        case 5:
+            mainSize = copyToMain(SubArray1, MainArray, mainSize, 1, 5);
+            break;
+
+        case 6:
+            mergeDesc(SubArray1, SubArray2, MainArray);
+            break;
+
+        case 7:
+            cout << "Sum = " << sum(SubArray1, size1) << endl;
+            break;
+
+        case 8:
+            cout << "Sum (Rec) = " << sumRec(SubArray1, size1) << endl;
+            break;
+
+        case 9:
+            cout << "Position: " << Search(SubArray1, size1, 5) << endl;
+            break;
+
+        case 10:
+            Separate(MainArray, mainSize);
+            break;
+
+        case 11:
+            display(SubArray1, size1);
+            break;
+        }
+    } while (choice != 0);
+
+    free(SubArray1);
+    free(SubArray2);
+    free(MainArray);
     return 0;
 }
