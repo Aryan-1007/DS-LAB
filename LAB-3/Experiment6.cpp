@@ -7,7 +7,6 @@ struct NODE
     NODE *next;
 };
 
-/* Detect cycle using Floyd’s algorithm */
 bool detectCycle(NODE *head)
 {
     NODE *slow = head;
@@ -24,13 +23,12 @@ bool detectCycle(NODE *head)
     return false;
 }
 
-/* Remove cycle without losing any node */
 void removeCycle(NODE *head)
 {
     NODE *slow = head;
     NODE *fast = head;
 
-    // Step 1: Detect cycle
+    // Detect cycle
     while (fast != NULL && fast->next != NULL)
     {
         slow = slow->next;
@@ -44,7 +42,6 @@ void removeCycle(NODE *head)
     if (fast == NULL || fast->next == NULL)
         return;
 
-    // Step 2: Find start of cycle
     slow = head;
     while (slow != fast)
     {
@@ -52,7 +49,7 @@ void removeCycle(NODE *head)
         fast = fast->next;
     }
 
-    // Step 3: Remove cycle
+    // Remove cycle
     NODE *temp = slow;
     while (temp->next != slow)
         temp = temp->next;
@@ -73,7 +70,6 @@ void display(NODE *head)
 
 int main()
 {
-    /* -------- Hard-coded initial linked list -------- */
     NODE *head = new NODE();
     head->data = 1;
 
@@ -94,7 +90,6 @@ int main()
     third->next = fourth;
     fourth->next = fifth;
 
-    // Creating a cycle: 5 -> 3
     fifth->next = third;
 
     /* -------- Detect cycle -------- */
