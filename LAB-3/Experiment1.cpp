@@ -84,9 +84,47 @@ int searchValue(NODE *&head, int value)
 }
 void reverseList(NODE *&head)
 {
+    NODE *current = head;
+    NODE *previous = NULL;
+    NODE *next = NULL;
+    while (current != NULL)
+    {
+        next = current->next;
+        current->next = previous;
+        previous = current;
+        current = next;
+    }
+    head = previous;
+}
+void DetectLoop(NODE *&head)
+{
+    NODE *slow = head;
+    NODE *fast = head;
+    while (fast != NULL && fast->next != NULL)
+    {
+        slow = slow->next;
+        fast = fast->next->next;
+        if (slow == fast)
+        {
+            cout << "Loop detected in the linked list." << endl;
+            return;
+        }
+    }
+    cout << "No loop detected in the linked list." << endl;
+}
+void displayList(NODE *head)
+{
+    NODE *temp = head;
+    while (temp != NULL)
+    {
+        cout << temp->data << " -> ";
+        temp = temp->next;
+    }
+    cout << "NULL" << endl;
 }
 int main(int argc, char const *argv[])
 {
+
     int n;
     cout << "Enter number of nodes: ";
     cin >> n;
@@ -96,7 +134,7 @@ int main(int argc, char const *argv[])
         int data;
         cout << "Enter data for node " << i + 1 << ": ";
         cin >> data;
-        insertAtBeginning(head, data);
+        insertAtEnd(head, data);
     }
     return 0;
 }
