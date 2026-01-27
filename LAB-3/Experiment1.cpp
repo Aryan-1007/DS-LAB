@@ -6,34 +6,42 @@ struct NODE
     int data;
     NODE *next;
 };
-void insertAtBeginning(NODE *&head, int newData)
+
+/* Insert at head */
+void insertAtHead(NODE *&head, int value)
 {
     NODE *newNode = new NODE();
-    newNode->data = newData;
+    newNode->data = value;
     newNode->next = head;
     head = newNode;
 }
-void insertAtEnd(NODE *&head, int newData)
+
+/* Insert at tail */
+void insertAtTail(NODE *&head, int value)
 {
     NODE *newNode = new NODE();
-    newNode->data = newData;
+    newNode->data = value;
     newNode->next = NULL;
+
     if (head == NULL)
     {
         head = newNode;
         return;
     }
+
     NODE *temp = head;
     while (temp->next != NULL)
-    {
         temp = temp->next;
-    }
+
     temp->next = newNode;
 }
+
+/* Delete by value (first occurrence) */
 void deleteByValue(NODE *&head, int value)
 {
     if (head == NULL)
         return;
+
     if (head->data == value)
     {
         NODE *temp = head;
@@ -41,100 +49,147 @@ void deleteByValue(NODE *&head, int value)
         delete temp;
         return;
     }
-    NODE *current = head;
-    NODE *previous = NULL;
-    while (current != NULL && current->data != value)
-    {
-        previous = current;
-        current = current->next;
-    }
-    if (current == NULL)
+
+    NODE *curr = head;
+    while (curr->next != NULL && curr->next->data != value)
+        curr = curr->next;
+
+    if (curr->next == NULL)
         return;
-    previous->next = current->next;
-    delete current;
-}
-void deleteByPostion(NODE *&head, int position)
-{
-    if (head == NULL)
-        return;
-    NODE *temp = head;
-    NODE *previous = NULL;
-    int cnt = 0;
-    while (cnt != position)
-    {
-        previous = temp;
-        temp = temp->next;
-        cnt++;
-    }
-    previous->next = temp->next;
+
+    NODE *temp = curr->next;
+    curr->next = temp->next;
     delete temp;
 }
-int searchValue(NODE *&head, int value)
+
+/* Delete by position (0-based) */
+void deleteByPosition(NODE *&head, int position)
 {
-    int pos{};
-    NODE *temp = head;
-    if (temp->data != value)
+    if (head == NULL || position < 0)
+        return;
+
+    if (position == 0)
     {
+        NODE *temp = head;
+        head = head->next;
+        delete temp;
+        return;
+    }
+
+    NODE *temp = head;
+    for (int i = 0; i < position - 1 && temp->next != NULL; i++)
         temp = temp->next;
+
+    if (temp->next == NULL)
+        return;
+
+    NODE *delNode = temp->next;
+    temp->next = delNode->next;
+    delete delNode;
+}
+
+/* Search for a value */
+int searchValue(NODE *head, int value)
+{
+    int pos = 0;
+    while (head != NULL)
+    {
+        if (head->data == value)
+            return pos;
+        head = head->next;
         pos++;
     }
-    if (temp->next == NULL)
-        return -1;
-    return pos;
+    return -1;
 }
+
+/* Reverse the list */
 void reverseList(NODE *&head)
 {
-    NODE *current = head;
-    NODE *previous = NULL;
-    NODE *next = NULL;
-    while (current != NULL)
+    NODE *prev = NULL;
+    NODE *curr = head;
+
+    while (curr != NULL)
     {
-        next = current->next;
-        current->next = previous;
-        previous = current;
-        current = next;
+        NODE *nextNode = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = nextNode;
     }
-    head = previous;
+    head = prev;
 }
-void DetectLoop(NODE *&head)
+
+/* Detect cycle */
+bool detectCycle(NODE *head)
 {
     NODE *slow = head;
     NODE *fast = head;
+
     while (fast != NULL && fast->next != NULL)
     {
         slow = slow->next;
         fast = fast->next->next;
+
         if (slow == fast)
-        {
-            cout << "Loop detected in the linked list." << endl;
-            return;
-        }
+            return true;
     }
-    cout << "No loop detected in the linked list." << endl;
+    return false;
 }
+
+/* Display list */
 void displayList(NODE *head)
 {
-    NODE *temp = head;
-    while (temp != NULL)
+    while (head != NULL)
     {
-        cout << temp->data << " -> ";
-        temp = temp->next;
+        cout << head->data << " -> ";
+        head = head->next;
     }
     cout << "NULL" << endl;
 }
-int main(int argc, char const *argv[])
-{
 
-    int n;
-    cout << "Enter number of nodes: ";
-    cin >> n;
-    NODE *head = NULL;
-    for (int i = 0; i < n; i++)
-    {
-        int data;
-        cout << "Enter data for node " << i + 1 << ": ";
-        cin >> data;
-        insertAtEnd(head, data);
-    }
+int main()
+{
+    /* -------- Hard-coded initial linked list -------- */
+    NODE *head = new NODE();
+    head->data = 10;
+
+    NODE *second = new NODE();
+    second->data = 20;
+
+    NODE *third = new NODE();
+    third->data = 30;
+
+    head->next = second;
+    second->next = third;
+    third->next = NULL;
+
+    cout << "Initial List: ";
+    displayList(head);
+
+    insertAtHead(head, 5);
+    insertAtTail(head, 40);
+
+    cout << "After insertions: ";
+    displayList(head);
+
+    deleteByValue(head, 20);
+    cout << "After deleting value 20: ";
+    displayList(head);
+
+    deleteByPosition(head, 2);
+    cout << "After deleting position 2: ";
+    displayList(head);
+
+    int pos = searchValue(head, 30);
+    cout << "Search 30 found at position: " << pos << endl;
+
+    reverseList(head);
+    cout << "Reversed List: ";
+    displayList(head);
+
+    if (detectCycle(head))
+        cout << "Cycle detected\n";
+    else
+        cout << "No cycle detected\n";
+
     return 0;
 }
