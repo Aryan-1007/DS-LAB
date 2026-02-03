@@ -5,14 +5,26 @@ struct Node
 {
     int data;
     Node *next;
+
+    Node(int d)
+    {
+        data = d;
+        next = NULL;
+    }
 };
 
-Node *createNode(int data)
+Node *convert(vector<int> arr)
 {
-    Node *newNode = new Node();
-    newNode->data = data;
-    newNode->next = NULL;
-    return newNode;
+    Node *head = new Node(arr[0]);
+    Node *mover = head;
+
+    for (int i = 1; i < arr.size(); i++)
+    {
+        Node *temp = new Node(arr[i]);
+        mover->next = temp;
+        mover = temp;
+    }
+    return head;
 }
 
 int findMiddle(Node *head)
@@ -31,11 +43,8 @@ int findMiddle(Node *head)
 
 int main(int argc, char const *argv[])
 {
-    Node *head = createNode(11);
-    head->next = createNode(22);
-    head->next->next = createNode(33);
-    head->next->next->next = createNode(44);
-    head->next->next->next->next = createNode(55);
+    vector<int> arr = {1, 6, 3, 9, 11};
+    Node *head = convert(arr);
 
     int mid = findMiddle(head);
     cout << "Middle Element is " << mid;

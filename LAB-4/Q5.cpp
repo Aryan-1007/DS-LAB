@@ -5,14 +5,26 @@ struct NODE
 {
     int data;
     NODE *next;
+
+    NODE(int d)
+    {
+        data = d;
+        next = NULL;
+    }
 };
 
-NODE *createNode(int data)
+NODE *convert(vector<int> arr)
 {
-    NODE *newNode = new NODE();
-    newNode->data = data;
-    newNode->next = NULL;
-    return newNode;
+    NODE *head = new NODE(arr[0]);
+    NODE *mover = head;
+
+    for (int i = 1; i < arr.size(); i++)
+    {
+        NODE *temp = new NODE(arr[i]);
+        mover->next = temp;
+        mover = temp;
+    }
+    return head;
 }
 
 NODE *reverseInGroups(NODE *head, int k)
@@ -20,7 +32,7 @@ NODE *reverseInGroups(NODE *head, int k)
     if (head == NULL || k <= 1)
         return head;
 
-    NODE dummy;
+    NODE dummy(0);
     dummy.next = head;
     NODE *prevGroup = &dummy;
 
@@ -64,13 +76,9 @@ void display(NODE *head)
 
 int main(int argc, char const *argv[])
 {
-    NODE *head = createNode(1);
-    head->next = createNode(2);
-    head->next->next = createNode(3);
-    head->next->next->next = createNode(4);
-    head->next->next->next->next = createNode(5);
-    head->next->next->next->next->next = createNode(6);
-    head->next->next->next->next->next->next = createNode(7);
+    vector<int> arr = {1, 2, 3, 4, 5, 6, 7};
+    NODE *head = convert(arr);
+
     cout << "Initial list:\n";
     display(head);
     cout << "\nFinal list:\n";

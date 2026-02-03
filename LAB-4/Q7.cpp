@@ -5,14 +5,26 @@ struct Node
 {
     int data;
     Node *next;
+
+    Node(int d)
+    {
+        data = d;
+        next = NULL;
+    }
 };
 
-Node *createNode(int data)
+Node *convert(vector<int> arr)
 {
-    Node *newNode = new Node();
-    newNode->data = data;
-    newNode->next = NULL;
-    return newNode;
+    Node *head = new Node(arr[0]);
+    Node *mover = head;
+
+    for (int i = 1; i < arr.size(); i++)
+    {
+        Node *temp = new Node(arr[i]);
+        mover->next = temp;
+        mover = temp;
+    }
+    return head;
 }
 
 Node *moveLastToFront(Node *&head)
@@ -48,10 +60,9 @@ void display(Node *head)
 
 int main(int argc, char const *argv[])
 {
-    Node *head = createNode(10);
-    head->next = createNode(20);
-    head->next->next = createNode(30);
-    head->next->next->next = createNode(40);
+    vector<int> arr = {10, 20, 30, 40};
+    Node *head = convert(arr);
+
     cout << "Initial list:\n";
     display(head);
     cout << "\nFinal list:\n";

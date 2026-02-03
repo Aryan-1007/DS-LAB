@@ -52,7 +52,7 @@ int main()
     second->next = third;
     third->next = NULL;
 
-    NODE *tail = third; // IMPORTANT: tail points to last node
+    NODE *tail = third;
 
     cout << "Initial List: ";
     display(head);
