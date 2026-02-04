@@ -29,20 +29,14 @@ Node *convert(vector<int> arr)
 
 Node *mergeSorted(Node *a, Node *b)
 {
-    if (!a)
-        return b;
-    if (!b)
-        return a;
-
-    if (a->data <= b->data)
+    while(a!=NULL || b!=NULL)
     {
-        a->next = mergeSorted(a->next, b);
-        return a;
-    }
-    else
-    {
-        b->next = mergeSorted(a, b->next);
-        return b;
+        Node* n1 =a->next;
+        Node* n2 =b->next;
+        if(a->data<= b->data)
+        {
+            
+        }
     }
 }
 
