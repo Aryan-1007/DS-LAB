@@ -58,20 +58,25 @@ void display(Node *head)
 
 int main(int argc, char const *argv[])
 {
-    vector<int> arr = {1, 4, 8};
+    vector<int> arr;
+    int x;
+    cout << "Enter element and write -1 to stop the inserting" << endl;
+    while (cin >> x && x != -1)
+    {
+        arr.push_back(x);
+    }
     Node *head = convert(arr);
-    // Node *head1 = createNode(1);
-    // head1->next = createNode(4);
-    // head1->next->next = createNode(8);
 
     cout << "List-1: ";
     display(head);
 
-    vector<int> arr1 = {2, 3, 9};
+    vector<int> arr1;
+    cout << "Enter element and write -1 to stop the inserting" << endl;
+    while (cin >> x && x != -1)
+    {
+        arr1.push_back(x);
+    }
     Node *head1 = convert(arr1);
-    // Node *head = createNode(2);
-    // head->next = createNode(3);
-    // head->next->next = createNode(9);
 
     cout << "List-2: ";
     display(head1);

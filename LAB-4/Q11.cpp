@@ -75,10 +75,17 @@ int main()
     Node *l1 = convert({1, 4, 5});
     Node *l2 = convert({2, 6});
     Node *l3 = convert({3, 4});
-
+    cout << "Initial lists" << endl;
+    cout << "list-1: ";
+    display(l1);
+    cout << "list-2: ";
+    display(l2);
+    cout << "list-3: ";
+    display(l3);
     vector<Node *> lists = {l1, l2, l3};
 
     Node *result = mergeKLists(lists);
+    cout << "Final List: ";
     display(result);
 
     return 0;

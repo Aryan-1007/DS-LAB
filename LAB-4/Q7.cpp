@@ -60,7 +60,13 @@ void display(Node *head)
 
 int main(int argc, char const *argv[])
 {
-    vector<int> arr = {10, 20, 30, 40};
+    vector<int> arr;
+    int x;
+    cout << "Enter element and write -1 to stop the inserting" << endl;
+    while (cin >> x && x != -1)
+    {
+        arr.push_back(x);
+    }
     Node *head = convert(arr);
 
     cout << "Initial list:\n";

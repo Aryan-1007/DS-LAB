@@ -77,6 +77,7 @@ int main()
     head->next->next->next->bottom->bottom = new Node(45);
 
     head = flatten(head);
+    cout << "Final flatten linked list: ";
     printList(head);
 
     return 0;
