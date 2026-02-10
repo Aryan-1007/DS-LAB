@@ -15,7 +15,7 @@ struct Node
     }
 };
 
-Node *merge(Node *a, Node *b)
+Node *merge(Node *&a, Node *&b)
 {
     if (!a)
         return b;
@@ -39,7 +39,7 @@ Node *merge(Node *a, Node *b)
     return result;
 }
 
-Node *flatten(Node *head)
+Node *flatten(Node *&head)
 {
     if (!head || !head->next)
         return head;
@@ -62,19 +62,45 @@ void printList(Node *head)
 
 int main()
 {
-    Node *head = new Node(5);
-    head->bottom = new Node(7);
-    head->bottom->bottom = new Node(8);
+    int n;
+    cout << "Enter the number of sorted bottom linked list: ";
+    cin >> n;
 
-    head->next = new Node(10);
-    head->next->bottom = new Node(20);
+    Node *head = NULL;
+    Node *prev = NULL;
 
-    head->next->next = new Node(19);
-    head->next->next->bottom = new Node(22);
+    for (int i = 0; i < n; i++)
+    {
+        int m;
+        cout << "Enter the number of element in row-" << i + 1 << ":";
+        cin >> m;
 
-    head->next->next->next = new Node(28);
-    head->next->next->next->bottom = new Node(40);
-    head->next->next->next->bottom->bottom = new Node(45);
+        Node *verticalHead = NULL;
+        Node *verticalPrev = NULL;
+
+        for (int j = 0; j < m; j++)
+        {
+            int x;
+            cout << "Enter the element-" << j + 1 << "of row-" << i + 1 << ":";
+            cin >> x;
+
+            Node *newNode = new Node(x);
+
+            if (!verticalHead)
+                verticalHead = newNode;
+            else
+                verticalPrev->bottom = newNode;
+
+            verticalPrev = newNode;
+        }
+
+        if (!head)
+            head = verticalHead;
+        else
+            prev->next = verticalHead;
+
+        prev = verticalHead;
+    }
 
     head = flatten(head);
     cout << "Final flatten linked list: ";
