@@ -81,7 +81,7 @@ int main()
         for (int j = 0; j < m; j++)
         {
             int x;
-            cout << "Enter the element-" << j + 1 << "of row-" << i + 1 << ":";
+            cout << "Enter the element-" << j + 1 << " of row-" << i + 1 << ":";
             cin >> x;
 
             Node *newNode = new Node(x);
