@@ -36,7 +36,7 @@ void display(Node *head)
 {
     while (head)
     {
-        cout << head->data << " ⇄ ";
+        cout << head->data << " ";
         head = head->next;
     }
     cout << "NULL\n";
@@ -166,7 +166,7 @@ void maxSumSublist(Node *head)
     cout << "Maximum sum sublist:\n";
     while (start != end->next)
     {
-        cout << start->data << " ⇄ ";
+        cout << start->data << " ";
         start = start->next;
     }
     cout << "\nMaximum Sum = " << maxSum << endl;
@@ -270,6 +270,7 @@ int main()
         {
         case 1:
             head = reverseDLL(head);
+            cout << "List is: ";
             display(head);
             break;
         case 2:
@@ -286,11 +287,13 @@ int main()
             cout << "Enter k: ";
             cin >> k;
             head = rotateByK(head, k);
+            cout << "List is: ";
             display(head);
             break;
         }
         case 4:
             head = deleteDuplicates(head);
+            cout << "List is: ";
             display(head);
             break;
         case 5:
@@ -311,6 +314,7 @@ int main()
                 arr2.push_back(v);
             Node *head2 = convert(arr2);
             head = mergeSorted(head, head2);
+            cout << "List is: ";
             display(head);
             break;
         }
@@ -320,6 +324,7 @@ int main()
             cout << "Enter positions x and y: ";
             cin >> x >> y;
             head = swapNodes(head, x, y);
+            cout << "List is: ";
             display(head);
             break;
         }

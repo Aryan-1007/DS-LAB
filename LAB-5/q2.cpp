@@ -1,7 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// -------------------- CIRCULAR LINKED LIST NODE --------------------
 struct Node
 {
     int data;
@@ -14,7 +13,6 @@ struct Node
     }
 };
 
-// -------------------- VECTOR → CIRCULAR LINKED LIST --------------------
 Node *convert(vector<int> arr)
 {
     if (arr.empty())
@@ -28,11 +26,10 @@ Node *convert(vector<int> arr)
         curr->next = temp;
         curr = temp;
     }
-    curr->next = head; // make circular
+    curr->next = head;
     return head;
 }
 
-// -------------------- DISPLAY CIRCULAR LINKED LIST --------------------
 void display(Node *head)
 {
     if (!head)
@@ -43,13 +40,12 @@ void display(Node *head)
     Node *curr = head;
     do
     {
-        cout << curr->data << " → ";
+        cout << curr->data << " ";
         curr = curr->next;
     } while (curr != head);
     cout << "(back to " << head->data << ")\n";
 }
 
-// -------------------- 1. SPLIT CLL INTO TWO HALVES --------------------
 pair<Node *, Node *> splitList(Node *head)
 {
     if (!head || head->next == head)
@@ -66,17 +62,16 @@ pair<Node *, Node *> splitList(Node *head)
 
     Node *head1 = head;
     Node *head2 = slow->next;
-    slow->next = head1; // first half circular
+    slow->next = head1;
 
     Node *temp = head2;
     while (temp->next != head)
         temp = temp->next;
-    temp->next = head2; // second half circular
+    temp->next = head2;
 
     return {head1, head2};
 }
 
-// -------------------- 2. CHECK IF SORTED --------------------
 bool isSorted(Node *head)
 {
     if (!head || head->next == head)
@@ -91,7 +86,6 @@ bool isSorted(Node *head)
     return true;
 }
 
-// -------------------- 3. INSERT INTO SORTED CLL --------------------
 Node *insertSorted(Node *head, int val)
 {
     Node *newNode = new Node(val);
@@ -113,7 +107,7 @@ Node *insertSorted(Node *head, int val)
     } while (curr != head);
 
     newNode->next = curr;
-    if (!prev) // insert before head
+    if (!prev)
     {
         Node *tail = head;
         while (tail->next != head)
@@ -127,7 +121,6 @@ Node *insertSorted(Node *head, int val)
     return head;
 }
 
-// -------------------- 4. REVERSE CLL --------------------
 Node *reverseCLL(Node *head)
 {
     if (!head || head->next == head)
@@ -150,7 +143,6 @@ Node *reverseCLL(Node *head)
     return head;
 }
 
-// -------------------- 5. DELETE EVERY K-TH NODE --------------------
 Node *deleteEveryK(Node *head, int k)
 {
     if (!head || head->next == head || k <= 0)
@@ -172,10 +164,9 @@ Node *deleteEveryK(Node *head, int k)
         delete temp;
     }
 
-    return curr; // last remaining node
+    return curr;
 }
 
-// -------------------- 6. CONVERT CLL TO LINEAR --------------------
 Node *circularToLinear(Node *head)
 {
     if (!head)
@@ -187,10 +178,6 @@ Node *circularToLinear(Node *head)
     return head;
 }
 
-// -------------------- 7. LAST REMAINING NODE --------------------
-// Already handled by deleteEveryK
-
-// -------------------- 8. MERGE TWO CLLs --------------------
 Node *mergeCLL(Node *head1, Node *head2)
 {
     if (!head1)
@@ -212,7 +199,6 @@ Node *mergeCLL(Node *head1, Node *head2)
     return head1;
 }
 
-// -------------------- 9. DETECT AND COUNT NODES IN LOOP --------------------
 int countNodesLoop(Node *head)
 {
     if (!head)
@@ -239,7 +225,6 @@ int countNodesLoop(Node *head)
     return 0;
 }
 
-// -------------------- MAIN MENU --------------------
 int main()
 {
     cout << "Enter elements of Circular Linked List (-1 to end):\n";
@@ -283,11 +268,13 @@ int main()
             cout << "Enter value to insert: ";
             cin >> x;
             head = insertSorted(head, x);
+            cout << "List is: ";
             display(head);
             break;
         }
         case 4:
             head = reverseCLL(head);
+            cout << "List is: ";
             display(head);
             break;
         case 5:
@@ -301,6 +288,7 @@ int main()
         }
         case 6:
             head = circularToLinear(head);
+            cout << "List is: ";
             display(head);
             break;
         case 7:
@@ -315,6 +303,7 @@ int main()
                 arr2.push_back(v);
             Node *head2 = convert(arr2);
             head = mergeCLL(head, head2);
+            cout << "List is: ";
             display(head);
             break;
         }
