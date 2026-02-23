@@ -25,7 +25,7 @@ public:
 
     void push(char ch)
     {
-        Node *newNode = new (nothrow) Node();
+        Node *newNode = new Node();
 
         if (newNode == NULL)
         {

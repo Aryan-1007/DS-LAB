@@ -28,7 +28,7 @@ public:
     void push(int val)
     {
         // Create new node for main stack
-        Node *newNode = new (nothrow) Node();
+        Node *newNode = new Node();
         if (newNode == NULL)
         {
             cout << "Stack Overflow (Memory Full)\n";
@@ -40,7 +40,7 @@ public:
         top = newNode;
 
         // Handle min stack
-        Node *minNode = new (nothrow) Node();
+        Node *minNode = new Node();
         if (minNode == NULL)
         {
             cout << "Memory Error\n";

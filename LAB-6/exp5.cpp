@@ -26,7 +26,7 @@ public:
 
     void push(int val)
     {
-        Node *newNode = new (nothrow) Node();
+        Node *newNode = new Node();
 
         if (newNode == NULL)
         {
