@@ -1,41 +1,68 @@
 #include <iostream>
+#include <cctype>
 using namespace std;
+
+struct Node
+{
+    char data;
+    Node *next;
+};
 
 class Stack
 {
 private:
-    char arr[100];
-    int top;
+    Node *top;
 
 public:
     Stack()
     {
-        top = -1;
+        top = NULL;
     }
 
     bool isEmpty()
     {
-        return top == -1;
+        return (top == NULL);
     }
 
     void push(char ch)
     {
-        if (top < 100 - 1)
-            arr[++top] = ch;
+        Node *newNode = new (nothrow) Node();
+
+        if (newNode == NULL)
+        {
+            cout << "Stack Overflow (Memory Full)\n";
+            return;
+        }
+
+        newNode->data = ch;
+        newNode->next = top;
+        top = newNode;
     }
 
     char pop()
     {
-        if (!isEmpty())
-            return arr[top--];
-        return '\0';
+        if (isEmpty())
+            return '\0';
+
+        Node *temp = top;
+        char ch = top->data;
+        top = top->next;
+        delete temp;
+
+        return ch;
     }
 
     char peek()
     {
         if (!isEmpty())
-            return arr[top];
+            return top->data;
         return '\0';
+    }
+
+    ~Stack()
+    {
+        while (!isEmpty())
+            pop();
     }
 };
 
@@ -70,7 +97,7 @@ int main()
         {
             while (!s.isEmpty() && s.peek() != '(')
                 postfix += s.pop();
-            s.pop();
+            s.pop(); // remove '('
         }
 
         else

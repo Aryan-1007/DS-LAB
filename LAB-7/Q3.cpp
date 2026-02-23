@@ -44,6 +44,7 @@ public:
         {
             front = rear = NULL;
             delete (temp);
+            return;
         }
         front = front->next;
         delete (temp);
