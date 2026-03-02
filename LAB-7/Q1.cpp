@@ -92,8 +92,9 @@ int main(int argc, char const *argv[])
 
     while (1)
     {
-        cout << "Enter 1 to Enqueue, 2 to Dequeue, 3 to Peek, 4 to Display, 5 to Check if empty,6 to Exit: ";
-        cin >> choice;
+        cout << "Enter:\n1 to Enqueue\n2 to Dequeue\n3 to Peek\n4 to Display\n5 to Check if empty\n6 to Exit\n";
+        cin >>
+            choice;
         switch (choice)
         {
         case 1:
