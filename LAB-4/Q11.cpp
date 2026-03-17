@@ -37,37 +37,42 @@ void display(Node *head)
     cout << endl;
 }
 
-struct compare
+Node *mergeTwoLists(Node *l1, Node *l2)
 {
-    bool operator()(Node *a, Node *b)
-    {
-        return a->data > b->data;
-    }
-};
+    if (!l1)
+        return l2;
+    if (!l2)
+        return l1;
 
-Node *mergeKLists(vector<Node *> &lists)
+    Node *result = NULL;
+
+    if (l1->data < l2->data)
+    {
+        result = l1;
+        result->next = mergeTwoLists(l1->next, l2);
+    }
+    else
+    {
+        result = l2;
+        result->next = mergeTwoLists(l1, l2->next);
+    }
+
+    return result;
+}
+
+Node *mergeKLists(Node *lists[], int k)
 {
-    priority_queue<Node *, vector<Node *>, compare> pq;
+    if (k == 0)
+        return NULL;
 
-    for (auto l : lists)
-        if (l)
-            pq.push(l);
+    Node *result = lists[0];
 
-    Node dummy(-1);
-    Node *tail = &dummy;
-
-    while (!pq.empty())
+    for (int i = 1; i < k; i++)
     {
-        Node *curr = pq.top();
-        pq.pop();
-
-        tail->next = curr;
-        tail = tail->next;
-
-        if (curr->next)
-            pq.push(curr->next);
+        result = mergeTwoLists(result, lists[i]);
     }
-    return dummy.next;
+
+    return result;
 }
 
 int main()
@@ -82,9 +87,9 @@ int main()
     display(l2);
     cout << "list-3: ";
     display(l3);
-    vector<Node *> lists = {l1, l2, l3};
+    Node *lists[] = {l1, l2, l3};
 
-    Node *result = mergeKLists(lists);
+    Node *result = mergeKLists(lists, 3);
     cout << "Final List: ";
     display(result);
 
