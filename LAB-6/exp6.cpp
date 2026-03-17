@@ -5,19 +5,18 @@ struct Node
 {
     int data;
     Node *next;
+    Node *minNode; // Pointer to node containing minimum value till this node
 };
 
 class MinStack
 {
 private:
     Node *top;
-    Node *minTop; // Stack to store minimums
 
 public:
     MinStack()
     {
         top = NULL;
-        minTop = NULL;
     }
 
     bool isEmpty()
@@ -27,7 +26,6 @@ public:
 
     void push(int val)
     {
-        // Create new node for main stack
         Node *newNode = new Node();
         if (newNode == NULL)
         {
@@ -37,24 +35,22 @@ public:
 
         newNode->data = val;
         newNode->next = top;
-        top = newNode;
 
-        // Handle min stack
-        Node *minNode = new Node();
-        if (minNode == NULL)
+        // Set minNode pointer
+        if (top == NULL)
         {
-            cout << "Memory Error\n";
-            return;
+            newNode->minNode = newNode; // First node is minimum
+        }
+        else if (val < top->minNode->data)
+        {
+            newNode->minNode = newNode; // New value is new minimum
+        }
+        else
+        {
+            newNode->minNode = top->minNode; // Carry forward previous minimum
         }
 
-        if (minTop == NULL || val <= minTop->data)
-            minNode->data = val;
-        else
-            minNode->data = minTop->data;
-
-        minNode->next = minTop;
-        minTop = minNode;
-
+        top = newNode;
         cout << "Pushed successfully\n";
     }
 
@@ -66,16 +62,10 @@ public:
             return;
         }
 
-        // Pop from main stack
         Node *temp = top;
         cout << "Popped: " << top->data << endl;
         top = top->next;
         delete temp;
-
-        // Pop from min stack
-        Node *minTemp = minTop;
-        minTop = minTop->next;
-        delete minTemp;
     }
 
     void getMin()
@@ -86,7 +76,7 @@ public:
             return;
         }
 
-        cout << "Minimum element: " << minTop->data << endl;
+        cout << "Minimum element: " << top->minNode->data << endl;
     }
 
     ~MinStack()
