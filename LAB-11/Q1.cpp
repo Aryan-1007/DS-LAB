@@ -14,6 +14,44 @@ struct Node
     }
 };
 
+#include <vector>
+
+// Function to print array representation
+void printArray(Node *root)
+{
+    if (!root)
+        return;
+
+    vector<int> arr;
+    queue<Node *> q;
+    q.push(root);
+
+    while (!q.empty())
+    {
+        Node *temp = q.front();
+        q.pop();
+
+        if (temp)
+        {
+            arr.push_back(temp->data);
+            q.push(temp->left);
+            q.push(temp->right);
+        }
+        else
+        {
+            arr.push_back(-1); // represent NULL
+        }
+    }
+
+    // Remove trailing -1 values (optional, cleaner output)
+    while (!arr.empty() && arr.back() == -1)
+        arr.pop_back();
+
+    cout << "Array representation: ";
+    for (int x : arr)
+        cout << x << " ";
+}
+
 int main()
 {
     int val;
@@ -51,4 +89,5 @@ int main()
     }
 
     cout << "Tree created successfully";
+    printArray(root);
 }
